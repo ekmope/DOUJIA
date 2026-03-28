@@ -1,10 +1,9 @@
 # 豆荚
 
-`豆荚` 是一个基于 `libxposed/api 101` 的 LSPosed 模块，目标应用为 `com.ss.android.ugc.aweme`。
+`豆荚` 是一个基于 LSPosed 的模块
+目标应用为 `com.ss.android.ugc.aweme`，其中版本为380300，其他版本请自测。
 
 ## 项目定位
-
-这个模块聚焦三类能力：
 
 - 首页入口精简
 - 首页控件透明度调整
