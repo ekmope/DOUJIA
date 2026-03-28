@@ -2,15 +2,6 @@
 
 `豆荚` 是一个基于 `libxposed/api 101` 的 LSPosed 模块，目标应用为 `com.ss.android.ugc.aweme`。
 
-建议仓库名：
-- `doujia-lsposed`
-
-对外文案统一建议：
-- 仓库名：`doujia-lsposed`
-- README 标题：`豆荚`
-- 模块显示名：`豆荚`
-- 应用包名：`com.android.ads`
-
 ## 项目定位
 
 这个模块聚焦三类能力：
@@ -50,20 +41,9 @@
 ## 作用域
 
 静态作用域：
-
 ```text
 com.ss.android.ugc.aweme
 ```
-
-对应文件：
-- `app/src/main/resources/META-INF/xposed/scope.list`
-
-## 应用信息
-
-- 模块名称：`豆荚`
-- 应用包名：`com.android.ads`
-- 目标应用：`com.ss.android.ugc.aweme`
-- Xposed 入口：`com.ss.android.ugc.awemes.ModuleMain`
 
 ## 构建环境
 
@@ -99,33 +79,8 @@ app/build/outputs/apk/release/
 ```
 
 说明：
-- 仓库未内置签名文件。
 - `release` 构建需要你自行提供签名配置。
 
-## 项目结构
-
-```text
-GitHub/
-├─ app/
-│  ├─ src/main/java/com/android/admin/module/
-│  │  ├─ DouyinMigratedHooks.java
-│  │  ├─ ModulePrefs.java
-│  │  ├─ UiProfile.java
-│  │  ├─ ViewInstaller.java
-│  │  ├─ KeepFireStore.java
-│  │  └─ WardStore.java
-│  ├─ src/main/java/com/ss/android/ugc/awemes/
-│  │  └─ ModuleMain.java
-│  └─ src/main/resources/META-INF/xposed/
-│     ├─ java_init.list
-│     ├─ module.prop
-│     └─ scope.list
-├─ gradle/wrapper/
-├─ gradlew
-├─ gradlew.bat
-├─ LICENSE
-└─ README.md
-```
 
 ## 说明
 
