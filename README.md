@@ -35,7 +35,7 @@ app/build/outputs/apk/release/
 ```
 
 说明：
-- `release` 构建需要你自行提供签名配置。
+-构建需要自行提供签名配置。
 
 
 ## 说明

@@ -76,11 +76,7 @@ public final class DouyinMigratedHooks {
     private static final int ID_TEXT_SHARE_COUNT = 1107886820;
     private static final int ID_VIDEO_TEXT = 1107886951;
     private final XposedInterface xposed;
-    private volatile SharedPreferences prefs;
     private final ClassLoader targetClassLoader;
-    private volatile long lastPrefsRefreshAt;
-    private volatile String lastPrefsSnapshot;
-    private volatile boolean probeShown;
     private final WeakHashMap<View, Boolean> hiddenTopViews = new WeakHashMap<>();
     private final WeakHashMap<View, Boolean> hiddenBottomViews = new WeakHashMap<>();
     private final WeakHashMap<Activity, UiProfile> activityProfiles = new WeakHashMap<>();
@@ -101,7 +97,6 @@ public final class DouyinMigratedHooks {
 
     public DouyinMigratedHooks(XposedInterface xposed, SharedPreferences prefs, ClassLoader targetClassLoader) {
         this.xposed = xposed;
-        this.prefs = prefs;
         this.targetClassLoader = targetClassLoader;
     }
 
@@ -120,7 +115,6 @@ public final class DouyinMigratedHooks {
                 Object patt0$temp = chain.getThisObject();
                 if (patt0$temp instanceof Activity) {
                     Activity a = (Activity) patt0$temp;
-                    this.probeShown = true;
                     try {
                         applyGeneralUiFeatures(a);
                     } catch (Throwable t) {
@@ -1973,69 +1967,21 @@ public final class DouyinMigratedHooks {
     }
 
     private boolean getBool(String key, boolean d) {
-        try {
-            if (ModulePrefs.KEY_ENABLE_MODULE.equals(key)) {
-                return true;
-            }
-            if (ModulePrefs.KEY_TOP_MENU.equals(key)) {
-                return true;
-            }
-            if (ModulePrefs.KEY_BOTTOM_MENU.equals(key)) {
-                return true;
-            }
-            if (ModulePrefs.KEY_STATUS_BAR_TRANSPARENT.equals(key) || ModulePrefs.KEY_BOTTOM_BAR_TRANSPARENT.equals(key)) {
-                SharedPreferences current = getCurrentPrefs();
-                return current != null ? current.getBoolean(ModulePrefs.KEY_OPACITY_CONTROL, d) : d;
-            }
-            if (ModulePrefs.KEY_VIDEO_FILTER_ENABLE.equals(key)) {
-                return true;
-            }
-            if (ModulePrefs.KEY_OPACITY_CONTROL.equals(key)) {
-                return d;
-            }
-            SharedPreferences current = getCurrentPrefs();
-            return current != null ? current.getBoolean(key, d) : d;
-        } catch (Throwable th) {
+        if (ModulePrefs.KEY_STATUS_BAR_TRANSPARENT.equals(key)
+                || ModulePrefs.KEY_BOTTOM_BAR_TRANSPARENT.equals(key)) {
             return d;
         }
+        if (ModulePrefs.KEY_OPACITY_CONTROL.equals(key)) {
+            return d;
+        }
+        return FixedConfig.getBoolean(key, d);
     }
 
     private void refreshPrefsIfNeeded(boolean force) {
     }
 
-    private int getInt(String key, int d) {
-        try {
-            SharedPreferences current = getCurrentPrefs();
-            return current != null ? current.getInt(key, d) : d;
-        } catch (Throwable th) {
-            return d;
-        }
-    }
-
     private String getString(String key, String d) {
-        try {
-            if (ModulePrefs.KEY_TOP_HIDE_LABELS.equals(key)) {
-                return "\u63a8\u8350,\u5173\u6ce8,\u76f4\u64ad,\u540c\u57ce,\u5546\u57ce,\u56e2\u8d2d,\u70ed\u70b9,\u7ecf\u9a8c,\u7cbe\u9009";
-            }
-            if (ModulePrefs.KEY_BOTTOM_HIDE_LABELS.equals(key)) {
-                return "\u670b\u53cb,\u53d1\u5e03";
-            }
-            if (ModulePrefs.KEY_VIDEO_FILTER_KEYWORDS.equals(key)) {
-                return "\u5e7f\u544a\n\u63a8\u5e7f";
-            }
-            SharedPreferences current = getCurrentPrefs();
-            if (current == null) {
-                return d;
-            }
-            String v = current.getString(key, d);
-            return v != null ? v : d;
-        } catch (Throwable th) {
-            return d;
-        }
-    }
-
-    private SharedPreferences getCurrentPrefs() {
-        return null;
+        return FixedConfig.getString(key, d);
     }
 
     private int dp(Activity a, int v) {
